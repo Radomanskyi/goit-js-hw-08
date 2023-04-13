@@ -1,6 +1,28 @@
-// Add imports above this line
-import { galleryItems } from './gallery-items';
-console.log("Hello World");
+import SimpleLightbox from "simplelightbox";
+import { galleryItems } from './gallery-items.js';
+import "simplelightbox/dist/simple-lightbox.min.css";
 // Change code below this line
+const gallery = document.querySelector(`ul`);
+const imageMarkup = createImageMarkup (galleryItems);
 
-console.log(galleryItems);
+
+gallery.insertAdjacentHTML('beforeend', imageMarkup);
+
+function createImageMarkup (galleryItems) {
+    return galleryItems.map(({preview, original, description}) => {
+        return`
+        <li class="gallery__item js-target">
+   <a class="gallery__link js-target" href="${original}">
+      <img class="gallery__image js-target js-card" src="${preview}" alt="${description}" />
+   </a>
+</li>
+        `;
+    })
+    .join(``);
+ }
+
+ new SimpleLightbox(".gallery a", {captionSelector: "img",
+ captionDelay: 250,
+ captionsData: "alt",
+ captionPosition: "bottom",
+});
