@@ -8,7 +8,7 @@ const form = document.querySelector("form");
 form.addEventListener('input', throttle(onFormInput, 500));
 form.addEventListener('submit', onFormSubmit);
 
-const currentObj = JSON.parse(localStorage.getItem('feedback-form-state')) ?? '';
+const currentObj = JSON.parse(localStorage.getItem('feedback-form-state')) ?? {};
 email.value = currentObj.email || '';
 message.value = currentObj.message || '';
 
@@ -26,6 +26,5 @@ function onFormSubmit(event) {
     console.log(localData);
     event.target.reset();
     localStorage.removeItem('feedback-form-state');
-    currentObj = {};
   }
 }
