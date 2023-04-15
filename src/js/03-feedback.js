@@ -5,40 +5,27 @@ const message = document.querySelector('textarea');
 const button = document.querySelector('button');
 const form = document.querySelector("form");
 
-email.addEventListener('input', throttle(onInputEmail, 500));
-message.addEventListener('input', throttle(onInputMessage, 500));
-button.addEventListener('click', onSub);
+form.addEventListener('input', throttle(onFormInput, 500));
+form.addEventListener('submit', onFormSubmit);
 
-const currentObj =
-  JSON.parse(localStorage.getItem('feedback-form-state')) ?? '';
+const currentObj = JSON.parse(localStorage.getItem('feedback-form-state')) ?? '';
 email.value = currentObj.email || '';
 message.value = currentObj.message || '';
 
-let resultObj = {
-  email: currentObj.email || '',
-  message: currentObj.message || '',
-};
-
-function onInputEmail() {
-  resultObj.email = email.value;
-  localStorage.setItem('feedback-form-state', JSON.stringify(resultObj));
+function onFormInput(event) {
+  currentObj[event.target.name] = event.target.value;
+  localStorage.setItem('feedback-form-state', JSON.stringify(currentObj));
 }
 
-function onInputMessage() {
-  resultObj.message = message.value;
-  localStorage.setItem('feedback-form-state', JSON.stringify(resultObj));
-}
-
-function onSub(event) {
+function onFormSubmit(event) {
   event.preventDefault();
   if (email.value === '' || message.value === '') {
     alert('Заполните все поля');
   } else {
-    const localData = localStorage.getItem('feedback-form-state');
-    console.log(JSON.parse(localData));
-    email.value = '';
-    message.value = '';
+    const localData = JSON.parse(localStorage.getItem('feedback-form-state'));
+    console.log(localData);
+    event.target.reset();
     localStorage.removeItem('feedback-form-state');
-    resultObj = {};
+    currentObj = {};
   }
 }
