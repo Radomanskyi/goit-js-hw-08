@@ -3,6 +3,7 @@ import { throttle } from 'lodash';
 const email = document.querySelector('input');
 const message = document.querySelector('textarea');
 const button = document.querySelector('button');
+const form = document.querySelector("form");
 
 email.addEventListener('input', throttle(onInputEmail, 500));
 message.addEventListener('input', throttle(onInputMessage, 500));
@@ -29,10 +30,10 @@ function onInputMessage() {
 }
 
 function onSub(event) {
+  event.preventDefault();
   if (email.value === '' || message.value === '') {
     alert('Заполните все поля');
   } else {
-    event.preventDefault();
     const localData = localStorage.getItem('feedback-form-state');
     console.log(JSON.parse(localData));
     email.value = '';
