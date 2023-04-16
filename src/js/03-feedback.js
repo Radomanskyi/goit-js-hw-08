@@ -2,13 +2,12 @@ import { throttle } from 'lodash';
 
 const email = document.querySelector('input');
 const message = document.querySelector('textarea');
-const button = document.querySelector('button');
 const form = document.querySelector("form");
 
 form.addEventListener('input', throttle(onFormInput, 500));
 form.addEventListener('submit', onFormSubmit);
 
-const currentObj = JSON.parse(localStorage.getItem('feedback-form-state')) ?? {};
+let currentObj = JSON.parse(localStorage.getItem('feedback-form-state')) ?? {};
 email.value = currentObj.email || '';
 message.value = currentObj.message || '';
 
